@@ -16,11 +16,7 @@ class CreateBeersTable extends Migration
         Schema::create('beers', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name');
-            $table->integer('country_id')->unsigned();
-            $table->foreign('country_id')
-                ->references('id')->on('countries')
-                ->onDelete('cascade');                
+            $table->string('name');               
             $table->integer('brewery_id')->unsigned();
             $table->foreign('brewery_id')
                 ->references('id')->on('breweries')

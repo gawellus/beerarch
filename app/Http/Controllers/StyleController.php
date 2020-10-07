@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Country;
+use App\Style;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CountryController extends Controller
+class StyleController extends Controller
 {
     public function __construct()
     {
@@ -15,12 +15,12 @@ class CountryController extends Controller
 
     public function getList()
     {
-        return response()->json(Country::all());
+        return response()->json(Style::all());
     }
 
     public function get($id)
     {
-        return response()->json(Country::find($id));
+        return response()->json(Style::find($id));
     }
 
     public function create(Request $request)
@@ -29,22 +29,22 @@ class CountryController extends Controller
             'name' => 'required',
         ]);
 
-        $Country = Country::create($request->all());
+        $Style = Style::create($request->all());
 
-        return response()->json($Country, 201);
+        return response()->json($Style, 201);
     }
 
     public function update($id, Request $request)
     {
-        $Country = Country::findOrFail($id);
-        $Country->update($request->all());
+        $Style = Style::findOrFail($id);
+        $Style->update($request->all());
 
-        return response()->json($Country, 200);
+        return response()->json($Style, 200);
     }
 
     public function delete($id)
     {
-        Country::findOrFail($id)->delete();
+        Style::findOrFail($id)->delete();
         return response('Deleted Successfully', 200);
     }
 }
