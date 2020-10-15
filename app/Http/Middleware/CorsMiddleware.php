@@ -1,8 +1,13 @@
-<?php namespace App\Http\Middleware;
+<?php
+
+/**
+* Location: /app/Http/Middleware
+*/
+namespace App\Http\Middleware;
 
 use Closure;
 
-class Cors
+class CorsMiddleware
 {
     /**
      * Handle an incoming request.
@@ -22,9 +27,8 @@ class Cors
         ];
 
         if ($request->isMethod('OPTIONS'))
-
         {
-            return response()->json('', 200, $headers);            
+            return response()->json('{"method":"OPTIONS"}', 200, $headers);
         }
 
         $response = $next($request);
