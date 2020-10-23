@@ -28,7 +28,11 @@ class BeerController extends Controller
     }
 
     public function create(Request $request)
-    {        
+    {       
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
+
         $photo = null;
 
         $Beer = new Beer([
@@ -44,13 +48,8 @@ class BeerController extends Controller
         if ($request->hasFile('file'))
         {  
             $photo = $this->uploadPhoto($request->file('file'));
+            $Beer->photo = $photo;
         }
-
-        $Beer->photo = $photo;
-
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
 
         if($breweryId = $request->input('brewery_id')) {
             $brewery = Brewery::find($breweryId);
@@ -75,17 +74,41 @@ class BeerController extends Controller
         return $picture;
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
-        $Beer = Beer::findOrFail($id);
-        $Beer->update($request->all());
+        $beer = Beer::findOrFail($id);
+        $beer->name = $request->input('name');
+        $beer->alc = $request->input('alc');
+        $beer->ekst = $request->input('ekst');
+        $beer->ibu = $request->input('ibu');
+        $beer->description = $request->input('description');
+        $beer->notes = $request->input('notes');
+        $beer->rating = $request->input('rating');
 
-        return response()->json($Beer, 200);
+        if($breweryId = $request->input('brewery_id')) {
+            $brewery = Brewery::find($breweryId);
+            $beer->brewery()->associate($brewery);
+        }
+
+        if($styleId = $request->input('style_id')) {
+            $style = Style::find($styleId);
+            $beer->style()->associate($style);
+        }
+
+        if ($request->hasFile('file'))
+        {  
+            $photo = $this->uploadPhoto($request->file('file'));
+            $beer->photo = $photo;
+        }
+
+        $beer->save();
+        
+        return response()->json($beer, 200);
     }
 
     public function delete($id)
     {
         Beer::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        return response()->json('Deleted Successfully', 200);
     }
 }

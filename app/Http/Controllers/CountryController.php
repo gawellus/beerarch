@@ -45,6 +45,6 @@ class CountryController extends Controller
     public function delete($id)
     {
         Country::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        return response()->json('Deleted Successfully', 200);
     }
 }

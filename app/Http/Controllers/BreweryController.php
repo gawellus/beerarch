@@ -15,7 +15,8 @@ class BreweryController extends Controller
 
     public function getList()
     {
-        return response()->json(Brewery::all());
+        $breweries = Brewery::with('country')->get();
+        return response()->json($breweries);
     }
 
     public function get($id)
@@ -51,6 +52,6 @@ class BreweryController extends Controller
     public function delete($id)
     {
         Brewery::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        return response()->json('Deleted Successfully', 200);
     }
 }

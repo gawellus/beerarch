@@ -45,6 +45,6 @@ class StyleController extends Controller
     public function delete($id)
     {
         Style::findOrFail($id)->delete();
-        return response('Deleted Successfully', 200);
+        return response()->json('Deleted Successfully', 200);
     }
 }
