@@ -8,6 +8,7 @@ use App\Country;
 use App\Style;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BeerController extends Controller
 {
@@ -42,8 +43,9 @@ class BeerController extends Controller
             'ibu' => $request->input('ibu'),
             'description' => $request->input('description'),
             'notes' => $request->input('notes'),
-            'rating' => $request->input('rating')            
-        ]);
+            'rating' => $request->input('rating'),            
+            'consumed_on' => Carbon::parse($request->input('consumed_on'))->toDateTimeString()
+        ]);       
 
         if ($request->hasFile('file'))
         {  
@@ -84,6 +86,7 @@ class BeerController extends Controller
         $beer->description = $request->input('description');
         $beer->notes = $request->input('notes');
         $beer->rating = $request->input('rating');
+        $beer->consumed_on = Carbon::parse($request->input('consumed_on'))->toDateTimeString();
 
         if($breweryId = $request->input('brewery_id')) {
             $brewery = Brewery::find($breweryId);

@@ -14,7 +14,8 @@ class Beer extends Model
         'description',
         'notes',
         'rating',
-        'photo'
+        'photo',
+        'consumed_on'
     ];
 
     protected $hidden = [];
