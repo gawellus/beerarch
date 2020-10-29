@@ -28,10 +28,16 @@ class StyleController extends Controller
         $this->validate($request, [
             'name' => 'required',
         ]);
+        
+        $Style = Style::firstOrNew($request->all());
+        if($Style->id) {
+            return response()->json($Style, 200);
+        } else {
+            $Style->save();
+            return response()->json($Style, 201);
+        }
+        return response()->json($Style, 400);        
 
-        $Style = Style::create($request->all());
-
-        return response()->json($Style, 201);
     }
 
     public function update($id, Request $request)

@@ -34,11 +34,16 @@ class BreweryController extends Controller
             $country = Country::find($countryId);
         }
 
-        $Brewery = new Brewery(['name' => $request->input('name')]);
-        $Brewery->country()->associate($country);
-        $Brewery->save();
-
-        return response()->json($Brewery, 201);
+        $Brewery = Brewery::firstOrNew(['name' =>  $request->input('name')]);
+        
+        if($Brewery->id) {
+            return response()->json($Brewery, 200);
+        } else {
+            $Brewery->country()->associate($country);    
+            $Brewery->save();
+            return response()->json($Brewery, 201);
+        }
+        return response()->json($Brewery, 400);
     }
 
     public function update($id, Request $request)

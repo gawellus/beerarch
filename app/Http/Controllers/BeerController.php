@@ -36,6 +36,12 @@ class BeerController extends Controller
 
         $photo = null;
 
+        $Beer = Beer::where('name', $request->input('name'))->first();        
+        
+        if($Beer) {
+            return response()->json($Beer, 200);
+        }
+
         $Beer = new Beer([
             'name' => $request->input('name'),
             'alc' => $request->input('alc'),
