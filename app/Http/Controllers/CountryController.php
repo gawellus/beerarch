@@ -29,9 +29,14 @@ class CountryController extends Controller
             'name' => 'required',
         ]);
 
-        $Country = Country::create($request->all());
-
-        return response()->json($Country, 201);
+        $Country = Country::firstOrNew($request->all());
+        if($Country->id) {
+            return response()->json($Country, 200);
+        } else {
+            $Country->save();
+            return response()->json($Country, 201);
+        }
+        return response()->json($Country, 400);        
     }
 
     public function update($id, Request $request)

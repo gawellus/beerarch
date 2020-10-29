@@ -20,8 +20,8 @@ class BreweryController extends Controller
     }
 
     public function get($id)
-    {
-        return response()->json(Brewery::find($id));
+    {        
+        return response()->json(Brewery::with('country')->find($id));
     }
 
     public function create(Request $request)
@@ -44,7 +44,13 @@ class BreweryController extends Controller
     public function update($id, Request $request)
     {
         $Brewery = Brewery::findOrFail($id);
-        $Brewery->update($request->all());
+        $Brewery->name = $request->input('name');
+
+        if($countryId = $request->input('country_id')) {
+            $country = Country::find($countryId);
+            $Brewery->country()->associate($country);
+        }
+        $Brewery->save();
 
         return response()->json($Brewery, 200);
     }
