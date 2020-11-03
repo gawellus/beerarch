@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Beer;
 use App\Brewery;
-use App\Country;
 use App\Style;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Carbon\Carbon;
 
 class BeerController extends Controller
@@ -17,9 +16,21 @@ class BeerController extends Controller
         $this->middleware('auth');        
     }
 
-    public function getList()
+    public function getList(Request $request)
     {
-        $beers = Beer::with('brewery', 'style', 'brewery.country')->get();
+        $sort = $request->sort;
+        $order = $request->order ?? 'ASC';        
+        $limit  = $request->limit;
+      
+        $beers = Beer::with('brewery', 'style', 'brewery.country')
+            ->when($sort && $order, function ($query) use ($sort, $order) {
+                return $query->orderBy($sort, $order);
+            })
+            ->when($limit, function ($query) use ($limit) {
+                return $query->limit($limit);
+            })
+            ->get();
+      
         return response()->json($beers);
     }
 
