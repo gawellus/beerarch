@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Brewery;
 use App\Country;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BreweryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');        
+        $this->middleware('auth',  ['except' => ['getMostPopularList']]);
     }
 
     public function getList()
@@ -65,4 +66,17 @@ class BreweryController extends Controller
         Brewery::findOrFail($id)->delete();
         return response()->json('Deleted Successfully', 200);
     }
+
+    public function getMostPopularList(Request $request)
+    {
+        $limit  = $request->limit ?? 10;
+        $breweries = DB::table('breweries')        
+        ->join('countries', 'countries.id', '=', 'breweries.country_id')
+        ->select(DB::raw('breweries.*, countries.name as country_name, (SELECT COUNT(beers.id) FROM beers WHERE beers.brewery_id = breweries.id) AS num_beers'))        
+        ->orderBy('num_beers', 'DESC')
+        ->take($limit)
+        ->get();        
+        return response()->json($breweries);
+    }
+
 }

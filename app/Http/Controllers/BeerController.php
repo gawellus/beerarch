@@ -13,7 +13,7 @@ class BeerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');        
+        $this->middleware('auth',  ['except' => ['getList']]);        
     }
 
     public function getList(Request $request)
@@ -27,7 +27,7 @@ class BeerController extends Controller
                 return $query->orderBy($sort, $order);
             })
             ->when($limit, function ($query) use ($limit) {
-                return $query->limit($limit);
+                return $query->take($limit);
             })
             ->get();
       

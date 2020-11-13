@@ -37,6 +37,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('breweries', ['uses' => 'BreweryController@create']);
     $router->delete('breweries/{id}', ['uses' => 'BreweryController@delete']);
     $router->put('breweries/{id}', ['uses' => 'BreweryController@update']);
+    $router->get('breweries/popular', ['uses' => 'BreweryController@getMostPopularList']);
 
     //Styles
     $router->get('styles', ['uses' => 'StyleController@getList']);
