@@ -30,6 +30,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('beers', ['uses' => 'BeerController@create']);
     $router->delete('beers/{id}', ['uses' => 'BeerController@delete']);
     $router->put('beers/{id}', ['uses' => 'BeerController@update']);
+    $router->get('beers/latest', ['uses' => 'BeerController@getLatest']);
 
     //Breweries
     $router->get('breweries', ['uses' => 'BreweryController@getList']);

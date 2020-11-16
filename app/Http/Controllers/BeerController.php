@@ -13,7 +13,7 @@ class BeerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth',  ['except' => ['getList']]);        
+        $this->middleware('auth',  ['except' => ['getList', 'getLatest']]);        
     }
 
     public function getList(Request $request)
@@ -130,5 +130,10 @@ class BeerController extends Controller
     {
         Beer::findOrFail($id)->delete();
         return response()->json('Deleted Successfully', 200);
+    }
+
+    public function getLatest()
+    {
+        return response()->json(Beer::with('brewery', 'style', 'brewery.country')->latest('consumed_on')->first());
     }
 }
