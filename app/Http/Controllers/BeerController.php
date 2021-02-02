@@ -13,7 +13,7 @@ class BeerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth',  ['except' => ['getList', 'getLatest']]);        
+        $this->middleware('auth',  ['except' => ['getList', 'getLatest', 'search']]);        
     }
 
     public function getList(Request $request)
@@ -135,5 +135,16 @@ class BeerController extends Controller
     public function getLatest()
     {
         return response()->json(Beer::with('brewery', 'style', 'brewery.country')->latest('consumed_on')->first());
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;        
+      
+        $beers = Beer::with('brewery', 'style', 'brewery.country')
+            ->where('name', 'LIKE', "%{$search}%") 
+            ->get();
+      
+        return response()->json($beers);
     }
 }

@@ -25,20 +25,21 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->put('countries/{id}', ['uses' => 'CountryController@update']);
 
     //Beers
-    $router->get('beers', ['uses' => 'BeerController@getList']);
+    $router->get('beers', ['uses' => 'BeerController@getList']);    
+    $router->get('beers/latest', ['uses' => 'BeerController@getLatest']);
+    $router->get('beers/search', ['uses' => 'BeerController@search']);
     $router->get('beers/{id}', ['uses' => 'BeerController@get']);
     $router->post('beers', ['uses' => 'BeerController@create']);
     $router->delete('beers/{id}', ['uses' => 'BeerController@delete']);
-    $router->put('beers/{id}', ['uses' => 'BeerController@update']);
-    $router->get('beers/latest', ['uses' => 'BeerController@getLatest']);
-
+    $router->put('beers/{id}', ['uses' => 'BeerController@update']);    
+    
     //Breweries
     $router->get('breweries', ['uses' => 'BreweryController@getList']);
+    $router->get('breweries/popular', ['uses' => 'BreweryController@getMostPopularList']);
     $router->get('breweries/{id}', ['uses' => 'BreweryController@get']);
     $router->post('breweries', ['uses' => 'BreweryController@create']);
     $router->delete('breweries/{id}', ['uses' => 'BreweryController@delete']);
-    $router->put('breweries/{id}', ['uses' => 'BreweryController@update']);
-    $router->get('breweries/popular', ['uses' => 'BreweryController@getMostPopularList']);
+    $router->put('breweries/{id}', ['uses' => 'BreweryController@update']);    
 
     //Styles
     $router->get('styles', ['uses' => 'StyleController@getList']);
