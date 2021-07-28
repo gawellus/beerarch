@@ -49,8 +49,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->put('styles/{id}', ['uses' => 'StyleController@update']);
 
     //Auth
-    $router->post('register', 'AuthController@register');
-    $router->post('login', 'AuthController@login');
+    $router->post('users/register', 'AuthController@register');
+    $router->post('users/login', 'AuthController@login');
+    $router->post('users/refresh-token', 'AuthController@refresh');
+    $router->post('users/revoke-token', 'AuthController@logout');
 
     //Users
     $router->get('profile', 'UserController@profile');
