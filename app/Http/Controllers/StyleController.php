@@ -15,7 +15,7 @@ class StyleController extends Controller
 
     public function getList()
     {
-        return response()->json(Style::all());
+        return response()->json(Style::all()->sortBy('name'));
     }
 
     public function get($id)

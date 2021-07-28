@@ -16,7 +16,7 @@ class BreweryController extends Controller
 
     public function getList()
     {
-        $breweries = Brewery::with('country')->get();
+        $breweries = Brewery::with('country')->orderBy('name')->get();
         return response()->json($breweries);
     }
 

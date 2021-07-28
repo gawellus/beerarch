@@ -17,7 +17,7 @@ class BeerController extends Controller
     }
 
     public function getList(Request $request)
-    {
+    {     
         $sort = $request->sort;
         $order = $request->order ?? 'ASC';        
         $limit  = $request->limit;
